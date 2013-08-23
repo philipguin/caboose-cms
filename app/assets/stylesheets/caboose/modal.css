@@ -189,7 +189,7 @@ select.fake option {
   color: #757575;
 }
 
-#modal_content input[type='checkbox'] {
+#caboose_bound_input input[type='checkbox'] {
   position: absolute;
   top: 4px;
   left: 0;

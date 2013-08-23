@@ -48,6 +48,7 @@ BoundCheckboxMultiple = BoundControl.extend({
           .append($('<td/>')
             .attr('id', this2.el + '_' + i)
             .attr('type', 'checkbox')
+            .addClass('caboose_bound_input')
             .attr('checked', this2.attribute.value[option.value])
             .on('change', function() {
               // this2.binder.cancel_active();

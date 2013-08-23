@@ -40,7 +40,7 @@ BoundImage = BoundControl.extend({
          $('#'+this2.el+'_iframe').on('load', function() { this2.post_upload(); });  
       })
       .append($('<input/>').attr('type', 'hidden').attr('name', 'authenticity_token').val(this.binder.authenticity_token))
-      .append($('<input/>').attr('type', 'button').val('Update ' + this.attribute.nice_name).click(function() { 
+      .append($('<input/>').addClass('caboose_bound_input').attr('type', 'button').val('Update ' + this.attribute.nice_name).click(function() { 
         $('#'+this2.el+'_container input[type="file"]').click(); 
       }))
       .append($('<input/>')

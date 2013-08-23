@@ -47,6 +47,7 @@ BoundTextarea = BoundControl.extend({
     $('#'+this.el+'_container').prepend($('<div/>')
       .attr('id', this.el + '_controls')
       .addClass('bound_textarea_controls')
+      .addClass('caboose_bound_input')
       .css('position', 'absolute')
       .css('top', 0)
       .css('left', w-148)

@@ -32,6 +32,7 @@ BoundSelect = BoundControl.extend({
     $('#'+this.el+'_container').append($('<input/>')
       .attr('id', this.el)
       .attr('placeholder', this.attribute.empty_text)
+      .addClass('caboose_bound_input')
       .on('focus', function() { this2.edit(); })
       .val(this.attribute.text.length > 0 ? this.attribute.text : this.attribute.empty_text)
     );

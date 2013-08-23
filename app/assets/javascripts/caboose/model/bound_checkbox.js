@@ -32,6 +32,7 @@ BoundCheckbox = BoundControl.extend({
     $('#'+this.el+'_container').append($('<input/>')
       .attr('id', this.el)
       .attr('type', 'checkbox')
+      .addClass('caboose_bound_input')
       .css('left', $('#'+this.placeholder).outerWidth() + 10)
       .attr('checked', this.attribute.value)
       .on('change', function() {        

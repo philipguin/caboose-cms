@@ -17,7 +17,7 @@ BoundText = BoundControl.extend({
          
     $('#'+this.el).wrap($('<div/>').attr('id', this.el + '_container').css('position', 'relative'));
     $('#'+this.el+'_container').empty();
-    $('#'+this.el+'_container').append($('<input/>').attr('id', this.el).attr('type', 'text').attr('placeholder', 'empty').val(this.attribute.value));
+    $('#'+this.el+'_container').append($('<input/>').attr('id', this.el).addClass('caboose_bound_input').attr('type', 'text').attr('placeholder', 'empty').val(this.attribute.value));
     $('#'+this.el+'_container').append($('<div/>').attr('id', this.el + '_placeholder').addClass('placeholder').append($('<span/>').html(this.attribute.nice_name + ': ')));
     if (this.attribute.width)  $('#'+this.el).css('width' , this.attribute.width);
     var w = $('#'+this.el+'_placeholder').outerWidth();
