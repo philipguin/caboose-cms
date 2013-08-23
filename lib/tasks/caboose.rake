@@ -27,10 +27,10 @@ namespace :caboose do
     args.with_defaults(from_version: nil, to_version: nil)
     migrate_tables(args[:from_version], args[:to_version])
   end
- 
+  
   desc "Performs caboose migrations to transition from the current version to the given version"
   task :migrate_to, [:to_version] => :migrate_between
- 
+  
   desc "Performs caboose migrations to transition from the current version to the latest installed version"
   task :migrate => :migrate_between
 
@@ -39,16 +39,17 @@ namespace :caboose do
   def drop_tables
     puts "Dropping any existing caboose tables..."
     c = ActiveRecord::Base.connection  
-    c.drop_table :users             if c.table_exists?('users')
-    c.drop_table :roles             if c.table_exists?('roles')
-    c.drop_table :permissions       if c.table_exists?('permissions')
-    c.drop_table :roles_users       if c.table_exists?('roles_users')
-    c.drop_table :permissions_roles if c.table_exists?('permissions_roles')
-    c.drop_table :assets            if c.table_exists?('assets')
-    c.drop_table :pages             if c.table_exists?('pages')
-    c.drop_table :page_permissions  if c.table_exists?('page_permissions')
-    c.drop_table :sessions          if c.table_exists?('sessions')
-    c.drop_table :settings          if c.table_exists?('settings')
+    c.drop_table :users                if c.table_exists?('users')
+    c.drop_table :roles                if c.table_exists?('roles')
+    c.drop_table :permissions          if c.table_exists?('permissions')
+    c.drop_table :roles_users          if c.table_exists?('roles_users')
+    c.drop_table :permissions_roles    if c.table_exists?('permissions_roles')
+    c.drop_table :assets               if c.table_exists?('assets')
+    c.drop_table :pages                if c.table_exists?('pages')
+    c.drop_table :posts                if c.table_exists?('posts')
+    c.drop_table :page_permissions     if c.table_exists?('page_permissions')
+    c.drop_table :sessions             if c.table_exists?('sessions')
+    c.drop_table :settings             if c.table_exists?('settings')
   end
 
   def create_tables  
@@ -127,6 +128,13 @@ namespace :caboose do
       t.string  :fb_description, :limit => 156
       t.string  :gp_description, :limit => 156
     end
+    c.create_table :posts do |t|
+	  	t.text 		 	 :title
+	  	t.text 		 	 :body
+	  	t.boolean  	 :hide
+	  	t.text 		 	 :image_url 
+	  	t.timestamps
+	  end
     c.create_table :page_permissions do |t|
       t.references  :role
       t.references  :page
@@ -211,23 +219,23 @@ namespace :caboose do
   def migrate_tables(from_version, to_version)
     version_setting = Caboose::Setting.where(name: 'version').first
     versions = Caboose::VERSIONS
-
+  
     from_version = version_setting.value if from_version.nil?
     to_version = Caboose::VERSION if to_version.nil?
     version_regex = /[0-9]+(\.[0-9]+)*/
-
+  
     raise "from_version '#{from_version}' was invalid" if not version_regex.match(from_version)
     raise "to_version '#{to_version}' was invalid" if not version_regex.match(to_version)
-
+  
     c = ActiveRecord::Base.connection
     from_to_compare = Caboose::Version.compare_version_strings(from_version, to_version)
-
+  
     if from_to_compare < 0
       versions.select{ |v| v > from_version && v <= to_version }.each{ |v| v.up(c) }
     elsif from_to_compare > 0
       versions.select{ |v| v > to_version && v <= from_version }.reverse_each{ |v| v.down(c) }
     end
-
+  
     version_setting.value = to_version
     version_setting.save
   end
